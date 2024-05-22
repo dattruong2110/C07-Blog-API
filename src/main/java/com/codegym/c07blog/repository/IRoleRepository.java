@@ -1,6 +1,6 @@
 package com.codegym.c07blog.repository;
 
-import com.codegym.c07blog.entity.Role;
+import com.codegym.c07blog.entity.authentication.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

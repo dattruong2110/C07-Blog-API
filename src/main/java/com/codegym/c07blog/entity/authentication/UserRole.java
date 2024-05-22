@@ -1,6 +1,7 @@
 package com.codegym.c07blog.entity.authentication;
 
-import com.codegym.c07blog.entity.Role;
+import com.codegym.c07blog.entity.authentication.Role;
+import com.codegym.c07blog.entity.authentication.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

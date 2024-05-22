@@ -1,7 +1,5 @@
-package com.codegym.c07blog.entity;
+package com.codegym.c07blog.entity.authentication;
 
-import com.codegym.c07blog.entity.authentication.User;
-import com.codegym.c07blog.entity.authentication.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
