@@ -65,6 +65,7 @@ public class UserService implements IUserService {
         user.setPassword(password);
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
+        user.setAvatar((registerRequest.getAvatar()));
         userRepository.save(user);
         return ResponsePayload.builder()
                 .message("Register success")

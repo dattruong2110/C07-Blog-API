@@ -12,7 +12,7 @@ CREATE TABLE user (
                       password VARCHAR(255) NOT NULL,
                       email VARCHAR(255) NOT NULL,
                       full_name VARCHAR(255),
-                      avatar TEXT
+                      avatar LONGTEXT
 );
 
 -- Create User-Role table
