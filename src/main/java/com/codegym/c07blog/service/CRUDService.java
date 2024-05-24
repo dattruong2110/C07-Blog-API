@@ -1,4 +1,4 @@
 package com.codegym.c07blog.service;
 
-public interface CRUDService {
+public interface CRUDService <T> {
 }

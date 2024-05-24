@@ -1,0 +1,17 @@
+package com.codegym.c07blog.repository;
+
+import com.codegym.c07blog.entity.authentication.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface IUserRepository extends JpaRepository<User, UUID> {
+    User findByUsername(String username);
+
+    @Query("SELECT r.userRoles FROM User u JOIN u.userRole ur JOIN ur.role r WHERE u.username = :username")
+    List<String> findRoleByUsername(String username);
+}
