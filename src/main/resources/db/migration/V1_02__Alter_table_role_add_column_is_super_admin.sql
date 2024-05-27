@@ -22,5 +22,5 @@ VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'superadmin', SHA2('123secure@Password'
 
 SET @super_admin_role_id = (SELECT id FROM role WHERE name = 'SUPER ADMIN');
 
-INSERT INTO user_role(user_id, role_id)
-VALUES ((SELECT id FROM user WHERE username = 'superadmin'), @super_admin_role_id);
+INSERT INTO user_role(id, user_id, role_id)
+VALUES (UNHEX(REPLACE(UUID(), '-', '')), (SELECT id FROM user WHERE username = 'superadmin'), @super_admin_role_id);
