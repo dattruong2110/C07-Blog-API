@@ -1,7 +1,11 @@
 package com.codegym.c07blog.entity.Blog;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +18,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Blog {
+public class BlogUser {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String title;
-    private String content;
     private String user;
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "category_id",referencedColumnName = "id")
-    private Category category;
+    @OneToOne
+    private Blog blog;
+
+
 }
