@@ -20,7 +20,7 @@ DELIMITER ;
 INSERT INTO user(id, username, password, email, full_name, avatar)
 VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'superadmin', SHA2('123secure@Password', 256), 'superadmin123@gmail.com', 'Super Admin', '');
 
-SET @super_admin_role_id = (SELECT id FROM role WHERE name = 'SUPER_ADMIN');
+SET @super_admin_role_id = (SELECT id FROM role WHERE name = 'SUPER ADMIN');
 
 INSERT INTO user_role(user_id, role_id)
 VALUES ((SELECT id FROM user WHERE username = 'superadmin'), @super_admin_role_id);
