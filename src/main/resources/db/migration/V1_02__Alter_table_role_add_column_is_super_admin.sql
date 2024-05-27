@@ -17,10 +17,10 @@ END //
 
 DELIMITER ;
 
-insert into user(id, username, password, email, full_name, avatar)
-values (unhex(replace(uuid(), '-', '')), 'superadmin', '123secure@Password', 'superadmin123@gmail.com', 'Super Admin', '');
+INSERT INTO user(id, username, password, email, full_name, avatar)
+VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'superadmin', SHA2('123secure@Password', 256), 'superadmin123@gmail.com', 'Super Admin', '');
 
 SET @super_admin_role_id = (SELECT id FROM role WHERE name = 'SUPER_ADMIN');
 
-insert into user_role(user_id, role_id)
-values ((SELECT id FROM user WHERE username = 'superadmin'), @super_admin_role_id);
+INSERT INTO user_role(user_id, role_id)
+VALUES ((SELECT id FROM user WHERE username = 'superadmin'), @super_admin_role_id);
