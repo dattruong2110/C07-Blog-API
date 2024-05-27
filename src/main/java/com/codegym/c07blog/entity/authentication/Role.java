@@ -23,4 +23,6 @@ public class Role {
 
     @OneToMany
     private Set<UserRole> userRoles;
+
+    private boolean isSuperAdmin;
 }
