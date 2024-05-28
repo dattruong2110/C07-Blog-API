@@ -20,7 +20,7 @@ CREATE TABLE user_role (
                            id binary(16),
                            user_id binary(16),
                            role_id binary(16),
-                           PRIMARY KEY (id, user_id, role_id),
+                           PRIMARY KEY (id),
                            FOREIGN KEY (user_id) REFERENCES user(id),
                            FOREIGN KEY (role_id) REFERENCES role(id)
 );
