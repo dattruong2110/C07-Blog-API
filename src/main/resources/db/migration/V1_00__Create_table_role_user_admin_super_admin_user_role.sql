@@ -17,14 +17,15 @@ CREATE TABLE user (
 
 -- Create User-Role table
 CREATE TABLE user_role (
+                           id binary(16),
                            user_id binary(16),
                            role_id binary(16),
-                           PRIMARY KEY (user_id, role_id),
+                           PRIMARY KEY (id),
                            FOREIGN KEY (user_id) REFERENCES user(id),
                            FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
 insert into role(id, name, description)
-values (unhex(replace(uuid(), '-', '')), 'SUPER_ADMIN', 'Super Admin role'),
+values (unhex(replace(uuid(), '-', '')), 'SUPER ADMIN', 'Super Admin role'),
        (unhex(replace(uuid(), '-', '')), 'ADMIN', 'Admin role'),
        (unhex(replace(uuid(), '-', '')), 'USER', 'User role');
