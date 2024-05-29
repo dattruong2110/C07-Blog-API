@@ -12,7 +12,8 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class BlogService implements IBlogService {
-    private final IBlogRepository blogRepository;
+    private  final IBlogRepository blogRepository;
+
     @Override
     public Blog findById(UUID id) {
         return blogRepository.findById(id).orElse(null);
@@ -20,8 +21,9 @@ public class BlogService implements IBlogService {
 
     @Override
     public List<Blog> findAll() {
-        return blogRepository.findAll();
+        return List.of();
     }
+
 
     @Override
     public void save(Blog blog) {

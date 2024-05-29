@@ -1,18 +1,14 @@
 package com.codegym.c07blog.entity.authentication;
 
-import com.codegym.c07blog.entity.authentication.Role;
-import com.codegym.c07blog.entity.authentication.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.codegym.c07blog.entity.Blog.BlogUser;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,4 +28,8 @@ public class UserRole {
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
+
+    @OneToMany
+    @JsonManagedReference
+    private List<BlogUser> blogUsers;
 }

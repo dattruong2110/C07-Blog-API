@@ -1,11 +1,8 @@
 package com.codegym.c07blog.entity.Blog;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import com.codegym.c07blog.entity.authentication.UserRole;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +15,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class BlogUser {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String user;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "blog_id",referencedColumnName = "id")
     private Blog blog;
 
-
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "user_role_id",referencedColumnName = "id")
+    private UserRole userRole;
 }

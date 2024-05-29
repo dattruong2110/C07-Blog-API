@@ -19,8 +19,10 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+
     private UUID id;
     private String name;
+
     @OneToMany(targetEntity = Blog.class, mappedBy = "category")
     @JsonManagedReference
     private Set<Blog> blog;

@@ -27,8 +27,10 @@ public class BlogController {
     }
     @GetMapping
     public ResponseEntity<List<Blog>> findAll() {
-        return ResponseEntity.ok(blogService.findAll());
+        List<Blog> blogs = blogService.findAll();
+        return ResponseEntity.ok(blogs);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Blog> findById(@PathVariable ("id")UUID id){
         return ResponseEntity.ok(blogService.findById(id));
