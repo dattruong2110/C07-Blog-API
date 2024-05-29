@@ -32,4 +32,9 @@ public class BlogService implements IBlogService {
     public void deleteById(UUID id) {
         blogRepository.deleteById(id);
     }
+
+    @Override
+    public List<Blog> findByTitle(String title) {
+        return blogRepository.findByTitleContainingIgnoreCase((title));
+    }
 }
