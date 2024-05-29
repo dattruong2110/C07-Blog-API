@@ -23,7 +23,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -31,9 +33,11 @@ public class UserService implements IUserService {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final IUserRoleRepository userRoleRepository;
+    private final RoleService roleService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JsonWebTokenProvider jsonWebTokenProvider;
+
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Override
@@ -117,5 +121,24 @@ public class UserService implements IUserService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User createAdminAccount(User user, UUID superAdminId) throws Exception {
+        if (!roleService.isUserSuperAdmin(superAdminId)) {
+            throw new Exception("Only SUPER_ADMIN can create an ADMIN account.");
+        }
+
+        Role adminRole = roleRepository.findByName("ADMIN");
+        if (adminRole == null) {
+            throw new Exception("Admin role not found.");
+        }
+
+        UserRole userRole = new UserRole();
+        userRole.setUser(user);
+        userRole.setRole(adminRole);
+        user.setUserRole(Collections.singleton(userRole));
+
+        return userRepository.save(user);
     }
 }
