@@ -76,7 +76,7 @@ public class SecurityConfiguration {
                         (requests) -> requests
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register", "/api/fact", "api/blog")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.GET, "/login", "/register", "/api/user/check-username", "/api/user/check-email", "api/blog")
+                                .requestMatchers(HttpMethod.GET, "/login", "/register", "/api/user/check-username", "/api/user/check-email", "api/blog", "/api/blog/search")
                                 .permitAll()
                                 .requestMatchers("/api/user/**")
                                 .hasAnyRole("ADMIN", "USER")
