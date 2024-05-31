@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,9 +22,12 @@ public class Blog {
     private UUID id;
     private String title;
     private String content;
-    private String user;
+    private LocalDateTime timestamps = LocalDateTime.now();
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
+
+    @OneToMany
+    private Set<BlogUser> blogUserSet;
 }
