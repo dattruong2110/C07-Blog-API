@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,5 +35,10 @@ public class BlogController {
     @GetMapping("/{id}")
     public ResponseEntity<Blog> findById(@PathVariable ("id")UUID id){
         return ResponseEntity.ok(blogService.findById(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Blog>> findByTitle(@RequestParam("title") String title) {
+        return ResponseEntity.ok(blogService.findByTitle(title));
     }
 }
