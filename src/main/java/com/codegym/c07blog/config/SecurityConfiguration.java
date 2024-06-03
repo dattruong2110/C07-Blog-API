@@ -81,7 +81,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/user/**")
                                 .hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/api/**")
-                                .hasAnyRole("SUPER ADMIN")
+                                .hasRole("SUPER_ADMIN")
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(

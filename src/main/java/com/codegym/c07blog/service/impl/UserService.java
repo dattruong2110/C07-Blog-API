@@ -6,8 +6,10 @@ import com.codegym.c07blog.entity.authentication.UserRole;
 import com.codegym.c07blog.jwt.JsonWebTokenProvider;
 import com.codegym.c07blog.payload.request.LoginRequest;
 import com.codegym.c07blog.payload.request.RegisterRequest;
+import com.codegym.c07blog.payload.request.UserRequest;
 import com.codegym.c07blog.payload.response.LoginResponse;
 import com.codegym.c07blog.payload.response.ResponsePayload;
+import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.repository.IRoleRepository;
 import com.codegym.c07blog.repository.IUserRepository;
 import com.codegym.c07blog.repository.IUserRoleRepository;
@@ -25,7 +27,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -53,6 +57,7 @@ public class UserService implements IUserService {
             LoginResponse tokenResponse =  LoginResponse.builder()
                     .fullName(user.getFullName())
                     .username(user.getUsername())
+                    .avatar(user.getAvatar())
                     .token(token)
                     .build();
             return ResponsePayload
@@ -84,7 +89,7 @@ public class UserService implements IUserService {
         userRepository.save(user);
         logger.info("User saved with ID: {}", user.getId());
 
-        Role userRole = roleRepository.findByName("USER");
+        Role userRole = roleRepository.findByName("ROLE_USER");
         if (userRole != null) {
             logger.info("User role found: {}", userRole.getName());
             UserRole userRoleMapping = new UserRole();
@@ -124,21 +129,52 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User createAdminAccount(User user, UUID superAdminId) throws Exception {
+    public UserResponse createAdminAccount(UserRequest userRequest, UUID superAdminId) throws Exception {
         if (!roleService.isUserSuperAdmin(superAdminId)) {
             throw new Exception("Only SUPER_ADMIN can create an ADMIN account.");
         }
 
-        Role adminRole = roleRepository.findByName("ADMIN");
-        if (adminRole == null) {
+        Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+        Role roleUser = roleRepository.findByName("ROLE_USER");
+
+        if (roleAdmin == null) {
             throw new Exception("Admin role not found.");
+        } else if (roleUser == null) {
+            throw new Exception("User role not found.");
         }
 
-        UserRole userRole = new UserRole();
-        userRole.setUser(user);
-        userRole.setRole(adminRole);
-        user.setUserRole(Collections.singleton(userRole));
+        User user = new User();
+        user.setUsername(userRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setEmail(userRequest.getEmail());
+        user.setFullName(userRequest.getFullName());
+        user.setAvatar(userRequest.getAvatar());
+        userRepository.save(user);
 
-        return userRepository.save(user);
+        UserRole adminUserRole = new UserRole();
+        adminUserRole.setUser(user);
+        adminUserRole.setRole(roleAdmin);
+        userRoleRepository.save(adminUserRole);
+
+        UserRole userUserRole = new UserRole();
+        userUserRole.setUser(user);
+        userUserRole.setRole(roleUser);
+        userRoleRepository.save(userUserRole);
+
+        user.setUserRole(Set.of(adminUserRole, userUserRole));
+        userRepository.save(user);
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setFullName(user.getFullName());
+        userResponse.setAvatar(user.getAvatar());
+        userResponse.setRoles(user.getUserRole().stream()
+                .map(userRole -> userRole.getRole().getName())
+                .collect(Collectors.toSet()));
+
+        return userResponse;
     }
+
 }
