@@ -1,5 +1,6 @@
 package com.codegym.c07blog.entity.authentication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,8 @@ public class Role {
     private String name;
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "role")
+    @JsonIgnore
     private Set<UserRole> userRoles;
 
     private boolean isSuperAdmin;
