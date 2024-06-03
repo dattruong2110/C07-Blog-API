@@ -26,6 +26,6 @@ CREATE TABLE user_role (
 );
 
 insert into role(id, name, description)
-values (unhex(replace(uuid(), '-', '')), 'SUPER ADMIN', 'Super Admin role'),
-       (unhex(replace(uuid(), '-', '')), 'ADMIN', 'Admin role'),
-       (unhex(replace(uuid(), '-', '')), 'USER', 'User role');
+values (unhex(replace(uuid(), '-', '')), 'ROLE_SUPER_ADMIN', 'Super Admin role'),
+       (unhex(replace(uuid(), '-', '')), 'ROLE_ADMIN', 'Admin role'),
+       (unhex(replace(uuid(), '-', '')), 'ROLE_USER', 'User role');

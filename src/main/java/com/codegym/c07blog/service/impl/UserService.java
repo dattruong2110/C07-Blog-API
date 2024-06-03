@@ -53,6 +53,7 @@ public class UserService implements IUserService {
             LoginResponse tokenResponse =  LoginResponse.builder()
                     .fullName(user.getFullName())
                     .username(user.getUsername())
+                    .avatar(user.getAvatar())
                     .token(token)
                     .build();
             return ResponsePayload
@@ -84,7 +85,7 @@ public class UserService implements IUserService {
         userRepository.save(user);
         logger.info("User saved with ID: {}", user.getId());
 
-        Role userRole = roleRepository.findByName("USER");
+        Role userRole = roleRepository.findByName("ROLE_USER");
         if (userRole != null) {
             logger.info("User role found: {}", userRole.getName());
             UserRole userRoleMapping = new UserRole();
@@ -129,7 +130,7 @@ public class UserService implements IUserService {
             throw new Exception("Only SUPER_ADMIN can create an ADMIN account.");
         }
 
-        Role adminRole = roleRepository.findByName("ADMIN");
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         if (adminRole == null) {
             throw new Exception("Admin role not found.");
         }
