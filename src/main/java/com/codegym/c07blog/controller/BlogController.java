@@ -2,6 +2,7 @@ package com.codegym.c07blog.controller;
 
 import com.codegym.c07blog.entity.Blog.Blog;
 import com.codegym.c07blog.service.IBlogService;
+import com.codegym.c07blog.service.impl.BlogService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BlogController {
     private final IBlogService blogService;
-
+    private final BlogService BlogService;
     @PostMapping
     public ResponseEntity<String> save(@RequestBody Blog blog){
         blogService.save(blog);

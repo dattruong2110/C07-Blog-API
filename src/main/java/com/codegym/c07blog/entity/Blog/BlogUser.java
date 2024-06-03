@@ -2,6 +2,8 @@ package com.codegym.c07blog.entity.Blog;
 
 import com.codegym.c07blog.entity.authentication.UserRole;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,8 @@ public class BlogUser {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinColumn(name = "blog_id",referencedColumnName = "id")
     private Blog blog;
 

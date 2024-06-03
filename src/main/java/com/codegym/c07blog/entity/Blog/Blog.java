@@ -2,6 +2,8 @@ package com.codegym.c07blog.entity.Blog;
 
 import com.codegym.c07blog.entity.Picture;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,15 +29,23 @@ public class Blog {
     @OneToOne
     @JoinColumn(name = "picture_id", referencedColumnName = "id")
     private Picture picture;
+    private String content;
+
     private LocalDateTime timestamps = LocalDateTime.now();
 
 
     @ManyToOne
-    @JsonBackReference
+    @JsonManagedReference
     @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
 
 
-    @OneToMany(mappedBy ="blog")
-    private Set<BlogUser> blogUserSet;
+    @OneToOne
+    @JsonManagedReference
+    @JoinColumn(name = "blog_user_id", referencedColumnName = "id")
+    private BlogUser blogUser;
+
+
+    @Column(name = "is_delete")
+    private Boolean isDeleted = false;
 }
