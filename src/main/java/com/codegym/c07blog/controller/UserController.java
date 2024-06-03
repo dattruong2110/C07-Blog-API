@@ -1,11 +1,14 @@
 package com.codegym.c07blog.controller;
 
 import com.codegym.c07blog.entity.authentication.User;
+import com.codegym.c07blog.payload.request.UserRequest;
+import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +41,14 @@ public class UserController {
         return ResponseEntity.ok(exists);
     }
 
-    @PostMapping("/admin")
-    public ResponseEntity<?> createAdminAccount(@RequestBody User user, @RequestParam UUID superAdminId) {
+    @PostMapping("/admin/{id}")
+    public ResponseEntity<?> createAdminAccount(@RequestBody UserRequest userRequest, @PathVariable("id") UUID superAdminId) {
         try {
-            User createdUser = userService.createAdminAccount(user, superAdminId);
+            UserResponse createdUser = userService.createAdminAccount(userRequest, superAdminId);
             return ResponseEntity.ok(createdUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 }
