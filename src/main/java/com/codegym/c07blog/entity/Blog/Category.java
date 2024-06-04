@@ -1,5 +1,6 @@
 package com.codegym.c07blog.entity.Blog;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,6 @@ public class Category {
     private String name;
 
     @OneToMany(targetEntity = Blog.class, mappedBy = "category")
-    @JsonManagedReference
+    @JsonBackReference
     private Set<Blog> blog;
 }

@@ -79,7 +79,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET, "/login", "/register",
                                         "/api/user/check-username",
                                         "/api/user/check-email",
-                                        "api/blog", "/api/blog/search",
+                                        "api/blog", "/api/blog/search", "api/blog/{id}",
                                         "/api/user")
                                 .permitAll()
                                 .requestMatchers("/api/user/**")

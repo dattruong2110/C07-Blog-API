@@ -28,4 +28,5 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<UserRole> userRole;
+
 }
