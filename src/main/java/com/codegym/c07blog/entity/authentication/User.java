@@ -1,5 +1,6 @@
 package com.codegym.c07blog.entity.authentication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,8 @@ public class User {
     private String fullName;
     private String avatar;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<UserRole> userRole;
 
 }
