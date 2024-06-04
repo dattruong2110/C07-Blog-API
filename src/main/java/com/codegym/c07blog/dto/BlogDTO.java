@@ -2,6 +2,7 @@ package com.codegym.c07blog.dto;
 
 import com.codegym.c07blog.entity.Blog.Category;
 import com.codegym.c07blog.entity.Picture;
+import com.codegym.c07blog.payload.response.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,5 @@ public class BlogDTO {
     private String content;
     private Picture picture;
     private Category category;
-    private UserDTO user;
+    private UserResponse user;
 }

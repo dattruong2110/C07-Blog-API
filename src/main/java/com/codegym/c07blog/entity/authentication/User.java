@@ -26,4 +26,5 @@ public class User {
 
     @OneToMany
     private Set<UserRole> userRole;
+
 }
