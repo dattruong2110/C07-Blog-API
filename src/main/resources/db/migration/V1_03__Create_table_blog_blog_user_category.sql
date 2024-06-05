@@ -13,7 +13,7 @@ CREATE TABLE blog (
       id binary(16) PRIMARY KEY,
       title VARCHAR(255) NOT NULL,
       picture_id binary(16),
-      content VARCHAR(255) NOT NULL ,
+      content TEXT NOT NULL ,
       timestamps DATETIME,
       category_id binary(16),
       FOREIGN KEY (picture_id) REFERENCES picture(id),

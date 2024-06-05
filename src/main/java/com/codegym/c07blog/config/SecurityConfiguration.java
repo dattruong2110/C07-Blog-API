@@ -74,9 +74,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         (requests) -> requests
-                                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register", "/api/fact", "api/blog")
+                                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register", "/api/fact", "/api/blog")
                                 .permitAll()
-                                .requestMatchers(HttpMethod.GET, "/login", "/register",
+                                .requestMatchers(HttpMethod.GET,
                                         "/api/user/check-username",
                                         "/api/user/check-email",
                                         "api/blog", "/api/blog/search", "api/blog/{id}",

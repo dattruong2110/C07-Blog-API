@@ -24,12 +24,12 @@ public class BlogUser {
     private UUID id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "blog_id",referencedColumnName = "id")
     private Blog blog;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "user_role_id",referencedColumnName = "id")
     private UserRole userRole;
 }
