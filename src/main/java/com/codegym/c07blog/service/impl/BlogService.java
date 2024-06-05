@@ -37,12 +37,18 @@ public class BlogService implements IBlogService {
         return blogs.stream()
                 .map(this::mapToBlogDTO)
                 .collect(Collectors.toList());
+
     }
 
     @Override
     public BlogDTO mapToBlogDTO(Blog blog) {
         BlogDTO blogDTO = new BlogDTO();
         blogDTO.setId(blog.getId());
+        blogDTO.setTitle(blog.getTitle());
+        blogDTO.setContent(blog.getContent());
+        blogDTO.setPicture(blog.getPicture());
+        blogDTO.setCategory(blog.getCategory());
+
 
         BlogUser blogUser = blog.getBlogUser();
         if (blogUser != null) {
