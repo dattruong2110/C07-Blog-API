@@ -27,33 +27,33 @@ public class BlogController {
         blogService.save(blog);
         return ResponseEntity.ok("thêm blog thành công");
     }
-    @GetMapping
-    public ResponseEntity<List<Blog>> findAll() {
-        List<Blog> blogs = blogService.findAll();
-        return ResponseEntity.ok(blogs);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Blog> findById(@PathVariable ("id")UUID id){
-        return ResponseEntity.ok(blogService.findById(id));
-    }
-
 //    @GetMapping
-//    public ResponseEntity<List<BlogDTO>> getAllBlogs() {
-//        List<BlogDTO> blogs = blogService.getAllBlogs();
-//        return new ResponseEntity<>(blogs, HttpStatus.OK);
+//    public ResponseEntity<List<Blog>> findAll() {
+//        List<Blog> blogs = blogService.findAll();
+//        return ResponseEntity.ok(blogs);
 //    }
 //
 //    @GetMapping("/{id}")
-//    public ResponseEntity<BlogDTO> getBlogWithUserById(@PathVariable UUID id) {
-//        BlogDTO blogDTO = blogService.getBlogWithUserById(id);
-//
-//        if (blogDTO != null) {
-//            return new ResponseEntity<>(blogDTO, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
+//    public ResponseEntity<Blog> findById(@PathVariable ("id")UUID id){
+//        return ResponseEntity.ok(blogService.findById(id));
 //    }
+
+    @GetMapping
+    public ResponseEntity<List<BlogDTO>> getAllBlogs() {
+        List<BlogDTO> blogs = blogService.getAllBlogs();
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BlogDTO> getBlogWithUserById(@PathVariable UUID id) {
+        BlogDTO blogDTO = blogService.getBlogWithUserById(id);
+
+        if (blogDTO != null) {
+            return new ResponseEntity<>(blogDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/search")
     public ResponseEntity<List<Blog>> findByTitle(@RequestParam("title") String title) {
