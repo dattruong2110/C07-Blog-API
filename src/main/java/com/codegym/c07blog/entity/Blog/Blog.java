@@ -35,13 +35,12 @@ public class Blog {
 
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonIgnore
     @JoinColumn(name = "category_id",referencedColumnName = "id")
     private Category category;
 
 
     @OneToOne
-    @JsonManagedReference
     @JoinColumn(name = "blog_user_id", referencedColumnName = "id")
     private BlogUser blogUser;
 
