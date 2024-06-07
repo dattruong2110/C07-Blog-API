@@ -19,6 +19,6 @@ public class BlogDTO {
     private String title;
     private String content;
     private Picture picture;
-    private Category category;
+    private String category;
     private UserResponse user;
 }

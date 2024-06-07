@@ -27,16 +27,6 @@ public class BlogController {
         blogService.save(blog);
         return ResponseEntity.ok("thêm blog thành công");
     }
-//    @GetMapping
-//    public ResponseEntity<List<Blog>> findAll() {
-//        List<Blog> blogs = blogService.findAll();
-//        return ResponseEntity.ok(blogs);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Blog> findById(@PathVariable ("id")UUID id){
-//        return ResponseEntity.ok(blogService.findById(id));
-//    }
 
     @GetMapping
     public ResponseEntity<List<BlogDTO>> getAllBlogs() {
