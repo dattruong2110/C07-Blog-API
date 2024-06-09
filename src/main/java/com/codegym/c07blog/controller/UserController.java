@@ -1,10 +1,12 @@
 package com.codegym.c07blog.controller;
 
+import com.codegym.c07blog.dto.UserDTO;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.payload.request.UserRequest;
 import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.service.IUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +50,17 @@ public class UserController {
             return ResponseEntity.ok(createdUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getBlogByUserID(@PathVariable UUID id) {
+        UserDTO userDTO = userService.getBlogByUserID(id);
+
+        if (userDTO != null) {
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

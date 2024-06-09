@@ -29,7 +29,7 @@ public class UserRole {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @OneToMany
+    @OneToMany(mappedBy = "userRole")
     @JsonManagedReference
     private List<BlogUser> blogUsers;
 }

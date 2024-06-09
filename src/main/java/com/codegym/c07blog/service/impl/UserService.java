@@ -1,5 +1,9 @@
 package com.codegym.c07blog.service.impl;
 
+import com.codegym.c07blog.dto.BlogDTO;
+import com.codegym.c07blog.dto.UserDTO;
+import com.codegym.c07blog.entity.Blog.Blog;
+import com.codegym.c07blog.entity.Blog.BlogUser;
 import com.codegym.c07blog.entity.authentication.Role;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.entity.authentication.UserRole;
@@ -10,6 +14,7 @@ import com.codegym.c07blog.payload.request.UserRequest;
 import com.codegym.c07blog.payload.response.LoginResponse;
 import com.codegym.c07blog.payload.response.ResponsePayload;
 import com.codegym.c07blog.payload.response.UserResponse;
+import com.codegym.c07blog.repository.IBlogRepository;
 import com.codegym.c07blog.repository.IRoleRepository;
 import com.codegym.c07blog.repository.IUserRepository;
 import com.codegym.c07blog.repository.IUserRoleRepository;
@@ -27,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,6 +42,7 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
+    private final IBlogRepository blogRepository;
     private final IUserRoleRepository userRoleRepository;
     private final RoleService roleService;
     private final AuthenticationManager authenticationManager;
@@ -55,6 +62,7 @@ public class UserService implements IUserService {
             String token = jsonWebTokenProvider.generateToken(authentication.getName());
             User user = userRepository.findByUsername(loginRequest.getUsername());
             LoginResponse tokenResponse =  LoginResponse.builder()
+                    .id((user.getId()))
                     .fullName(user.getFullName())
                     .username(user.getUsername())
                     .avatar(user.getAvatar())
@@ -177,4 +185,39 @@ public class UserService implements IUserService {
         return userResponse;
     }
 
+    @Override
+    public UserDTO getBlogByUserID(UUID id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            List<Blog> blogs = blogRepository.findAllByUserId(user.getId());
+
+            Set<BlogDTO> blogDTOs = blogs.stream()
+                    .map(blog -> new BlogDTO(
+                            blog.getId(),
+                            blog.getTitle(),
+                            blog.getContent(),
+                            blog.getPicture(),
+                            blog.getCategory().getName().toString(),
+                            null
+                    )).collect(Collectors.toSet());
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setFullName(user.getFullName());
+
+            if (!blogDTOs.isEmpty()) {
+                userDTO.setBlogs(blogDTOs);
+            }
+
+            return userDTO;
+        } else {
+            System.out.println("User not found");
+        }
+        return null;
+    }
 }

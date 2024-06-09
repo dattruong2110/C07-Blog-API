@@ -1,5 +1,6 @@
 package com.codegym.c07blog.service;
 
+import com.codegym.c07blog.dto.UserDTO;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.payload.request.LoginRequest;
 import com.codegym.c07blog.payload.request.RegisterRequest;
@@ -17,4 +18,5 @@ public interface IUserService {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
     UserResponse createAdminAccount(UserRequest userRequest, UUID superAdminId) throws Exception;
+    UserDTO getBlogByUserID(UUID id);
 }

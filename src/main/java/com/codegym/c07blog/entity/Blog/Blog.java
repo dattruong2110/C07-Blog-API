@@ -42,6 +42,7 @@ public class Blog {
 
     @OneToOne
     @JoinColumn(name = "blog_user_id", referencedColumnName = "id")
+    @JsonIgnore
     private BlogUser blogUser;
 
 
