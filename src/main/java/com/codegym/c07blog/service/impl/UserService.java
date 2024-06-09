@@ -62,6 +62,7 @@ public class UserService implements IUserService {
             String token = jsonWebTokenProvider.generateToken(authentication.getName());
             User user = userRepository.findByUsername(loginRequest.getUsername());
             LoginResponse tokenResponse =  LoginResponse.builder()
+                    .id((user.getId()))
                     .fullName(user.getFullName())
                     .username(user.getUsername())
                     .avatar(user.getAvatar())
