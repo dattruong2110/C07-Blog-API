@@ -79,8 +79,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET,
                                         "/api/user/check-username",
                                         "/api/user/check-email",
-                                        "api/blog", "/api/blog/search", "api/blog/{id}",
-                                        "/api/user")
+                                        "/api/blog", "/api/blog/search", "api/blog/{id}",
+                                        "/api/user", "/api/user/{id}")
                                 .permitAll()
                                 .requestMatchers("/api/user/**")
                                 .hasAnyRole("ADMIN", "USER")
