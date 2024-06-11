@@ -2,6 +2,7 @@ package com.codegym.c07blog.controller;
 
 import com.codegym.c07blog.dto.BlogDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
+import com.codegym.c07blog.payload.request.BlogRequest;
 import com.codegym.c07blog.service.IBlogService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BlogController {
     private final IBlogService blogService;
+
     @PostMapping
-    public ResponseEntity<String> save(@RequestBody Blog blog){
-        blogService.save(blog);
-        return ResponseEntity.ok("thêm blog thành công");
+    public ResponseEntity<Void> createBlog(@RequestBody BlogRequest blogRequest) {
+        blogService.createBlogAndBlogUser(blogRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
