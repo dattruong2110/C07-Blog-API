@@ -2,6 +2,7 @@ package com.codegym.c07blog.service;
 
 import com.codegym.c07blog.dto.BlogDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
+import com.codegym.c07blog.payload.request.BlogRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,4 +12,5 @@ public interface IBlogService extends CRUDService<Blog>{
     BlogDTO getBlogWithUserById(UUID Id);
     List<BlogDTO> getAllBlogs();
     BlogDTO mapToBlogDTO(Blog blog);
+    void createBlogAndBlogUser(BlogRequest blogRequest);
 }

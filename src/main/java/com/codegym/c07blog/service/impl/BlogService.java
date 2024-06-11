@@ -3,13 +3,20 @@ package com.codegym.c07blog.service.impl;
 import com.codegym.c07blog.dto.BlogDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
 import com.codegym.c07blog.entity.Blog.BlogUser;
+import com.codegym.c07blog.entity.Blog.Category;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.entity.authentication.UserRole;
+import com.codegym.c07blog.payload.request.BlogRequest;
 import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.repository.IBlogRepository;
+import com.codegym.c07blog.repository.IBlogUserRepository;
+import com.codegym.c07blog.repository.ICategoryRepository;
+import com.codegym.c07blog.repository.IUserRepository;
 import com.codegym.c07blog.service.IBlogService;
+import com.codegym.c07blog.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +28,9 @@ import java.util.stream.Collectors;
 public class BlogService implements IBlogService {
 
     private  final IBlogRepository blogRepository;
+    private final IUserRepository userRepository;
+    private final ICategoryRepository categoryRepository;
+    private final IBlogUserRepository blogUserRepository;
 
     public BlogDTO getBlogWithUserById(UUID blogId) {
         Optional<Blog> blog = blogRepository.findById(blogId);
@@ -50,6 +60,7 @@ public class BlogService implements IBlogService {
         blogDTO.setCategory(blog.getCategory().getName().toString());
 
 
+
         BlogUser blogUser = blog.getBlogUser();
         if (blogUser != null) {
             UserRole userRole = blogUser.getUserRole();
@@ -73,6 +84,31 @@ public class BlogService implements IBlogService {
             }
         }
         return blogDTO;
+    }
+
+    @Override
+    @Transactional
+    public void createBlogAndBlogUser(BlogRequest blogRequest) {
+        User user = userRepository.findById(blogRequest.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Blog blog = new Blog();
+        Category category = categoryRepository.findByName(blogRequest.getCategory());
+
+        blog.setTitle(blogRequest.getTitle());
+        blog.setContent(blogRequest.getContent());
+        blog.setPicture(blogRequest.getPicture());
+        blog.setCategory(category);
+
+        BlogUser blogUser = new BlogUser();
+
+        blogUser.setBlog(blog);
+
+        UserRole userRole = user.getUserRole().iterator().next();
+        blogUser.setUserRole(userRole);
+        blogUserRepository.save(blogUser);
+        blog.setBlogUser(blogUser);
+        blogRepository.save(blog);
     };
 
 
