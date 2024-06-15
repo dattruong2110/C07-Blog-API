@@ -18,7 +18,7 @@ END //
 DELIMITER ;
 
 INSERT INTO user(id, username, password, email, full_name, avatar)
-VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'superadmin', SHA2('123secure@Password', 256), 'superadmin123@gmail.com', 'Super Admin', '');
+VALUES (UNHEX(REPLACE(UUID(), '-', '')), 'superadmin', '$2a$10$IQUPWq04aX7SJUrBbJVizeJZvDwg9UfMmPlWdp4OO.xfEy/sKk8e6', 'superadmin123@gmail.com', 'Super Admin', '');
 
 SET @super_admin_role_id = (SELECT id FROM role WHERE name = 'ROLE_SUPER_ADMIN');
 

@@ -95,11 +95,17 @@ public class UserService implements IUserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jsonWebTokenProvider.generateToken(authentication.getName());
             User user = userRepository.findByUsername(loginRequest.getUsername());
+
+            List<String> roles = user.getUserRole().stream()
+                    .map(userRole -> userRole.getRole().getName())
+                    .collect(Collectors.toList());
+
             LoginResponse tokenResponse =  LoginResponse.builder()
                     .id((user.getId()))
                     .fullName(user.getFullName())
                     .username(user.getUsername())
                     .avatar(user.getAvatar())
+                    .roles(roles)
                     .token(token)
                     .build();
             return ResponsePayload
