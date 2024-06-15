@@ -24,6 +24,7 @@ public class User {
     private String email;
     private String fullName;
     private String avatar;
+    private Boolean isDeleted;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

@@ -1,0 +1,4 @@
+USE `c07-blog`;
+
+ALTER TABLE `user`
+    ADD COLUMN `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE;
