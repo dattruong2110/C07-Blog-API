@@ -134,6 +134,7 @@ public class UserService implements IUserService {
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
         user.setAvatar(registerRequest.getAvatar());
+        user.setIsDeleted(false);
         userRepository.save(user);
         logger.info("User saved with ID: {}", user.getId());
 
