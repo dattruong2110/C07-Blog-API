@@ -3,7 +3,6 @@ package com.codegym.c07blog.service.impl;
 import com.codegym.c07blog.dto.BlogDTO;
 import com.codegym.c07blog.dto.UserDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
-import com.codegym.c07blog.entity.Blog.BlogUser;
 import com.codegym.c07blog.entity.authentication.Role;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.entity.authentication.UserRole;
@@ -29,8 +28,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -50,6 +50,40 @@ public class UserService implements IUserService {
     private final JsonWebTokenProvider jsonWebTokenProvider;
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    @Override
+    @Transactional
+    public ResponsePayload delete(UUID id){
+        userRepository.deleteUserById(id);
+        return ResponsePayload.builder()
+                .message("Delete success")
+                .data(null)
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @Override
+    public ResponsePayload update(UserRequest userRequest) {
+        User user = userRepository.findByUsername(userRequest.getUsername());
+        if (user == null) {
+            return ResponsePayload.builder()
+                    .message("User not found")
+                    .data(null)
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+
+        user.setEmail(userRequest.getEmail());
+        user.setFullName(userRequest.getFullName());
+        user.setAvatar(userRequest.getAvatar());
+        userRepository.save(user);
+
+        return ResponsePayload.builder()
+                .message("Update success")
+                .data(null)
+                .status(HttpStatus.OK)
+                .build();
+    }
 
     @Override
     public ResponsePayload login(LoginRequest loginRequest) {

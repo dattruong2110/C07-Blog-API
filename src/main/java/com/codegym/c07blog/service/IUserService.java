@@ -7,10 +7,12 @@ import com.codegym.c07blog.payload.request.RegisterRequest;
 import com.codegym.c07blog.payload.request.UserRequest;
 import com.codegym.c07blog.payload.response.ResponsePayload;
 import com.codegym.c07blog.payload.response.UserResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public interface IUserService {
     ResponsePayload login(LoginRequest loginRequest);
     ResponsePayload register(RegisterRequest registerRequest);
@@ -19,4 +21,6 @@ public interface IUserService {
     boolean existsByEmail(String email);
     UserResponse createAdminAccount(UserRequest userRequest, UUID superAdminId) throws Exception;
     UserDTO getBlogByUserID(UUID id);
+    ResponsePayload delete(UUID id);
+    ResponsePayload update(UserRequest userRequest);
 }
