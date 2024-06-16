@@ -38,10 +38,7 @@ public class Fact {
     private String comment;
     private LocalDateTime timestamps = LocalDateTime.now();
 
-    @OneToOne
-    @JoinColumn(name = "fact_user_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "fact")
     @JsonIgnore
     private FactUser factUser;
-
-
 }

@@ -27,8 +27,8 @@ public class Picture {
     private UUID id;
     private String url;
     private String description;
-    @OneToOne
-    @JoinColumn(name = "fact_id", referencedColumnName = "id")
+
+    @OneToOne(mappedBy = "picture")
     private Fact fact;
 }
 

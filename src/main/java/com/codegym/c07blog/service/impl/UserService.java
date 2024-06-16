@@ -251,6 +251,7 @@ public class UserService implements IUserService {
             userDTO.setEmail(user.getEmail());
             userDTO.setFullName(user.getFullName());
             userDTO.setAvatar(user.getAvatar());
+            userDTO.setIsDeleted(user.getIsDeleted());
 
             if (!blogDTOs.isEmpty()) {
                 userDTO.setBlogs(blogDTOs);

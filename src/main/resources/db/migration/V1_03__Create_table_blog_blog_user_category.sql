@@ -38,15 +38,3 @@ insert into category(id, name)
 values
     (unhex(replace(uuid(), '-', '')),'sport'),
     (unhex(replace(uuid(), '-', '')),'film');
-
-insert into blog(id, title,content, timestamps)
-VALUES
-    (unhex(replace(uuid(), '-', '')),'title1','content1', CURRENT_TIMESTAMP),
-    (unhex(replace(uuid(), '-', '')),'title2','content2', CURRENT_TIMESTAMP);
-insert into blog_user (id)
-VALUES
-    (unhex(replace(uuid(), '-', ''))),
-    (unhex(replace(uuid(), '-', '')));
-
-
-

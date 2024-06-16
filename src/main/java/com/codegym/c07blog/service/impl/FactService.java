@@ -83,20 +83,23 @@ public class FactService implements IFactService {
         User user = userRepository.findById(factRequest.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-       Fact fact = new Fact();
-       fact.setPicture(factRequest.getPicture());
-       fact.setContent(factRequest.getContent());
-       fact.setLikes(factRequest.getLikes());
-       fact.setComment(factRequest.getComment());
+        Fact fact = new Fact();
+        fact.setPicture(factRequest.getPicture());
+        fact.setContent(factRequest.getContent());
+        fact.setLikes(factRequest.getLikes());
+        fact.setComment(factRequest.getComment());
 
-       FactUser factUser = new FactUser();
-       factUser.setFact(fact);
-       UserRole userRole = user.getUserRole().iterator().next();
-       factUser.setUserRole(userRole);
-       factUserRepository.save(factUser);
-       fact.setFactUser(factUser);
-       factRepository.save(fact);
-    };
+        factRepository.save(fact);
+
+        FactUser factUser = new FactUser();
+        factUser.setFact(fact);
+        UserRole userRole = user.getUserRole().iterator().next();
+        factUser.setUserRole(userRole);
+        factUserRepository.save(factUser);
+
+        fact.setFactUser(factUser);
+        factRepository.save(fact);
+    }
 
     @Override
     public Fact findById(UUID id) {return factRepository.findById(id).orElse(null);}

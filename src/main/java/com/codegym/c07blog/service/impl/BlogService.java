@@ -47,7 +47,6 @@ public class BlogService implements IBlogService {
         return blogs.stream()
                 .map(this::mapToBlogDTO)
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -57,9 +56,12 @@ public class BlogService implements IBlogService {
         blogDTO.setTitle(blog.getTitle());
         blogDTO.setContent(blog.getContent());
         blogDTO.setPicture(blog.getPicture());
-        blogDTO.setCategory(blog.getCategory().getName().toString());
 
-
+        if (blog.getCategory() != null) {
+            blogDTO.setCategory(blog.getCategory().getName().toString());
+        } else {
+            blogDTO.setCategory(null);
+        }
 
         BlogUser blogUser = blog.getBlogUser();
         if (blogUser != null) {
@@ -75,6 +77,7 @@ public class BlogService implements IBlogService {
                     userResponse.setUsername(user.getUsername());
                     userResponse.setEmail(user.getEmail());
                     userResponse.setAvatar(user.getAvatar());
+                    userResponse.setIsDeleted(user.getIsDeleted());
 
                     userResponse.setRoles(user.getUserRole().stream()
                             .map(ur -> ur.getRole().getName())
