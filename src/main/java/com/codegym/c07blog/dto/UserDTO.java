@@ -18,6 +18,7 @@ public class UserDTO {
     private String email;
     private String fullName;
     private String avatar;
+    private Boolean isDeleted;
     private Set<BlogDTO> blogs;
     private Set<FactDTO> facts;
 }
