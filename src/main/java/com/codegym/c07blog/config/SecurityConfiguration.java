@@ -80,7 +80,8 @@ public class SecurityConfiguration {
                                         "/api/user/check-username",
                                         "/api/user/check-email",
                                         "/api/blog", "/api/blog/search", "api/blog/{id}",
-                                        "/api/user", "/api/user/{id}")
+                                        "/api/user", "/api/user/{id}",
+                                        "/api/fact", "/api/fact/{id}")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/user/{id}").permitAll()
                                 .requestMatchers("/api/user/**")
