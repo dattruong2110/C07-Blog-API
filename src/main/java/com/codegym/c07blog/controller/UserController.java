@@ -38,7 +38,6 @@ public class UserController {
         return new ResponseEntity<>(users.stream().filter(user -> !user.getIsDeleted()).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<RequestPayload> delete(@PathVariable("id") String id) {
         UUID uuid = UUID.fromString(id);
