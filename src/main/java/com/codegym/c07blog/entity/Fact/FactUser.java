@@ -1,8 +1,9 @@
 package com.codegym.c07blog.entity.Fact;
 
-import com.codegym.c07blog.entity.Picture;
+import com.codegym.c07blog.entity.authentication.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,8 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 import java.util.UUID;
 
 @Entity
@@ -26,19 +25,18 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class Fact {
-    @Id
-    @GeneratedValue (strategy = GenerationType.UUID)
+public class FactUser {
+   @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @OneToOne
-    @JoinColumn(name = "picture_id", referencedColumnName = "id")
-    private Picture picture;
-    private String content;
-    private String likes;
-    private String comment;
-    private LocalDateTime timestamps = LocalDateTime.now();
 
-    @OneToOne(mappedBy = "fact")
+   @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
-    private FactUser factUser;
+    @JoinColumn(name = "fact_id", referencedColumnName = "id")
+    private Fact fact;
+
+   @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "user_role_id", referencedColumnName = "id")
+    private UserRole userRole;
 }

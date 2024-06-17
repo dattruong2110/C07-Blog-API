@@ -143,6 +143,7 @@ public class UserService implements IUserService {
         user.setEmail(registerRequest.getEmail());
         user.setFullName(registerRequest.getFullName());
         user.setAvatar(registerRequest.getAvatar());
+        user.setIsDeleted(false);
         userRepository.save(user);
         logger.info("User saved with ID: {}", user.getId());
 
@@ -259,6 +260,7 @@ public class UserService implements IUserService {
             userDTO.setEmail(user.getEmail());
             userDTO.setFullName(user.getFullName());
             userDTO.setAvatar(user.getAvatar());
+            userDTO.setIsDeleted(user.getIsDeleted());
 
             if (!blogDTOs.isEmpty()) {
                 userDTO.setBlogs(blogDTOs);

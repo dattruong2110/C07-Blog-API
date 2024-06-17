@@ -1,6 +1,10 @@
 package com.codegym.c07blog.entity.authentication;
 
 import com.codegym.c07blog.entity.Blog.BlogUser;
+import com.codegym.c07blog.entity.Fact.Fact;
+import com.codegym.c07blog.entity.Fact.FactUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,4 +36,8 @@ public class UserRole {
     @OneToMany(mappedBy = "userRole")
     @JsonManagedReference
     private List<BlogUser> blogUsers;
+
+    @OneToMany(mappedBy = "userRole")
+    @JsonBackReference
+    private List<FactUser> factUsers;
 }
