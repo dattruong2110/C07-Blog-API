@@ -3,6 +3,7 @@ package com.codegym.c07blog.controller;
 import com.codegym.c07blog.dto.FactDTO;
 import com.codegym.c07blog.entity.Fact.Fact;
 import com.codegym.c07blog.payload.request.FactRequest;
+import com.codegym.c07blog.payload.response.ResponsePayload;
 import com.codegym.c07blog.service.IFactService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class FactController {
     private final IFactService factService;
 
     @PostMapping
-    public ResponseEntity<Void> creatFact(@RequestBody FactRequest factRequest) {
+    public ResponseEntity<ResponsePayload> creatFact(@RequestBody FactRequest factRequest) {
         factService.createFactAndFactUser(factRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

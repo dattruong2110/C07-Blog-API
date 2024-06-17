@@ -31,6 +31,7 @@ public class Fact {
     @GeneratedValue (strategy = GenerationType.UUID)
     private UUID id;
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "picture_id", referencedColumnName = "id")
     private Picture picture;
     private String content;
