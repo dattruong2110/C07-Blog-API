@@ -21,6 +21,7 @@ public interface IUserService {
     boolean existsByEmail(String email);
     UserResponse createAdminAccount(UserRequest userRequest, UUID superAdminId) throws Exception;
     UserDTO getBlogByUserID(UUID id);
+    UserDTO getFactByUserID(UUID id);
     ResponsePayload delete(UUID id);
     ResponsePayload update(UserRequest userRequest);
 }

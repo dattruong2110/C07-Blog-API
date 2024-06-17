@@ -84,4 +84,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/fact/{id}")
+    public ResponseEntity<UserDTO> getFactByUserID(@PathVariable UUID id) {
+        UserDTO userDTO = userService.getFactByUserID(id);
+
+        if (userDTO != null) {
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
