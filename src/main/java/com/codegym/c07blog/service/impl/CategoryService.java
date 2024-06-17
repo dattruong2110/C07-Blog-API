@@ -33,4 +33,5 @@ public class CategoryService implements ICategoryService {
     public void deleteById(UUID id) {
         categoryRepository.deleteById(id);
     }
+
 }

@@ -2,8 +2,10 @@ package com.codegym.c07blog.controller;
 
 import com.codegym.c07blog.dto.BlogDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
+import com.codegym.c07blog.entity.Blog.Category;
 import com.codegym.c07blog.payload.request.BlogRequest;
 import com.codegym.c07blog.service.IBlogService;
+import com.codegym.c07blog.service.impl.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BlogController {
     private final IBlogService blogService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public ResponseEntity<Void> createBlog(@RequestBody BlogRequest blogRequest) {
@@ -51,4 +54,9 @@ public class BlogController {
     public ResponseEntity<List<Blog>> findByTitle(@RequestParam("title") String title) {
         return ResponseEntity.ok(blogService.findByTitle(title));
     }
+    @GetMapping("/category")
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> categories = categoryService.findAll();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    };
 }
