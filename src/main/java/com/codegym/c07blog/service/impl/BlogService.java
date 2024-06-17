@@ -11,7 +11,6 @@ import com.codegym.c07blog.payload.request.BlogRequest;
 import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.repository.*;
 import com.codegym.c07blog.service.IBlogService;
-import com.codegym.c07blog.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,7 @@ public class BlogService implements IBlogService {
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
     private final IBlogUserRepository blogUserRepository;
-    private final IPictureReposiroty pictureReposiroty;
+    private final IPictureRepository pictureRepository;
 
     public BlogDTO getBlogWithUserById(UUID blogId) {
         Optional<Blog> blog = blogRepository.findById(blogId);
@@ -96,7 +95,9 @@ public class BlogService implements IBlogService {
 
         Blog blog = new Blog();
         Picture picture = new Picture();
-        pictureReposiroty.save(blog.getPicture());
+        picture.setDescription(blogRequest.getPicture().getDescription());
+        picture.setUrl(blogRequest.getPicture().getUrl());
+        pictureRepository.save(picture);
         Category category = categoryRepository.findByName(blogRequest.getCategory());
 
         blog.setTitle(blogRequest.getTitle());
