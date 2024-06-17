@@ -3,12 +3,15 @@ package com.codegym.c07blog.service.impl;
 import com.codegym.c07blog.dto.FactDTO;
 import com.codegym.c07blog.entity.Fact.Fact;
 import com.codegym.c07blog.entity.Fact.FactUser;
+import com.codegym.c07blog.entity.Picture;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.entity.authentication.UserRole;
 import com.codegym.c07blog.payload.request.FactRequest;
+import com.codegym.c07blog.payload.response.ResponsePayload;
 import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.repository.IFactUserRepository;
 import com.codegym.c07blog.repository.IFactRepository;
+import com.codegym.c07blog.repository.IPictureRepository;
 import com.codegym.c07blog.repository.IUserRepository;
 import com.codegym.c07blog.service.IFactService;
 import jakarta.transaction.Transactional;
@@ -26,6 +29,7 @@ public class FactService implements IFactService {
     private final IFactRepository factRepository;
     private final IUserRepository userRepository;
     private final IFactUserRepository factUserRepository;
+    private final IPictureRepository pictureRepository;
 
     public FactDTO getFactWithUserById(UUID factId) {
         Optional<Fact> fact = factRepository.findById(factId);
@@ -48,7 +52,7 @@ public class FactService implements IFactService {
         FactDTO factDTO = new FactDTO();
         factDTO.setId(fact.getId());
         factDTO.setPicture(fact.getPicture());
-        factDTO.setContent(factDTO.getContent());
+        factDTO.setContent(fact.getContent());
         factDTO.setLikes(fact.getLikes());
         factDTO.setComment(fact.getComment());
 
@@ -79,26 +83,36 @@ public class FactService implements IFactService {
 
     @Override
     @Transactional
-    public void createFactAndFactUser(FactRequest factRequest) {
-        User user = userRepository.findById(factRequest.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public ResponsePayload createFactAndFactUser(FactRequest factRequest) {
+        Optional<User> user = userRepository.findById(factRequest.getUserId());
 
+        FactUser factUser = new FactUser();
         Fact fact = new Fact();
-        fact.setPicture(factRequest.getPicture());
+        Picture picture = new Picture();
+
+        UserRole userRole = user.get().getUserRole().stream().findFirst().orElse(null);
+
+        fact.setFactUser(factUser);
+        factUser.setFact(fact);
+
+        factUser.setUserRole(userRole);
+        factUserRepository.save(factUser);
+
+        picture.setUrl(factRequest.getPicture());
+        picture.setDescription("Fact picture");
+        pictureRepository.save(picture);
+
+        fact.setPicture(picture);
+
         fact.setContent(factRequest.getContent());
         fact.setLikes(factRequest.getLikes());
         fact.setComment(factRequest.getComment());
 
         factRepository.save(fact);
 
-        FactUser factUser = new FactUser();
-        factUser.setFact(fact);
-        UserRole userRole = user.getUserRole().iterator().next();
-        factUser.setUserRole(userRole);
-        factUserRepository.save(factUser);
-
-        fact.setFactUser(factUser);
-        factRepository.save(fact);
+        return ResponsePayload.builder()
+                .message("Fact created successfully")
+                .build();
     }
 
     @Override

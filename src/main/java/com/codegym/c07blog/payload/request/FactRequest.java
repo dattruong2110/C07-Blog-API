@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 public class FactRequest {
     private String content;
-    private Picture picture;
+    private String picture;
     private String likes;
     private String comment;
     private UUID userId;
