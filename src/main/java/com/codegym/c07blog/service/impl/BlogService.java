@@ -4,14 +4,12 @@ import com.codegym.c07blog.dto.BlogDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
 import com.codegym.c07blog.entity.Blog.BlogUser;
 import com.codegym.c07blog.entity.Blog.Category;
+import com.codegym.c07blog.entity.Picture;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.entity.authentication.UserRole;
 import com.codegym.c07blog.payload.request.BlogRequest;
 import com.codegym.c07blog.payload.response.UserResponse;
-import com.codegym.c07blog.repository.IBlogRepository;
-import com.codegym.c07blog.repository.IBlogUserRepository;
-import com.codegym.c07blog.repository.ICategoryRepository;
-import com.codegym.c07blog.repository.IUserRepository;
+import com.codegym.c07blog.repository.*;
 import com.codegym.c07blog.service.IBlogService;
 import com.codegym.c07blog.service.IUserService;
 import lombok.AllArgsConstructor;
@@ -31,6 +29,7 @@ public class BlogService implements IBlogService {
     private final IUserRepository userRepository;
     private final ICategoryRepository categoryRepository;
     private final IBlogUserRepository blogUserRepository;
+    private final IPictureReposiroty pictureReposiroty;
 
     public BlogDTO getBlogWithUserById(UUID blogId) {
         Optional<Blog> blog = blogRepository.findById(blogId);
@@ -96,11 +95,13 @@ public class BlogService implements IBlogService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Blog blog = new Blog();
+        Picture picture = new Picture();
+        pictureReposiroty.save(blog.getPicture());
         Category category = categoryRepository.findByName(blogRequest.getCategory());
 
         blog.setTitle(blogRequest.getTitle());
         blog.setContent(blogRequest.getContent());
-        blog.setPicture(blogRequest.getPicture());
+        blog.setPicture(picture);
         blog.setCategory(category);
 
         BlogUser blogUser = new BlogUser();

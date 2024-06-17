@@ -79,8 +79,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET,
                                         "/api/user/check-username",
                                         "/api/user/check-email",
-                                        "/api/blog", "/api/blog/search", "api/blog/{id}",
-                                        "/api/user", "/api/user/{id}", "/api/user/fact/{id}",
+                                        "/api/blog", "/api/blog/search", "api/blog/{id}","api/blog/category",
+                                        "/api/user", "/api/user/{id}",
                                         "/api/fact", "/api/fact/{id}")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/user/{id}").permitAll()
