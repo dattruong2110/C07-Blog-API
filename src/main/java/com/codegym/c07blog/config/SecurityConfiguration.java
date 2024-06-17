@@ -84,6 +84,7 @@ public class SecurityConfiguration {
                                         "/api/fact", "/api/fact/{id}")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/user/{id}").permitAll()
+                                .requestMatchers(HttpMethod.PUT, "/api/user").permitAll()
                                 .requestMatchers("/api/user/**")
                                 .hasAnyRole("ADMIN", "USER")
                                 .requestMatchers("/api/**")

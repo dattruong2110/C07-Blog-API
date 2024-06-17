@@ -64,7 +64,7 @@ public class UserService implements IUserService {
 
     @Override
     public ResponsePayload update(UserRequest userRequest) {
-        User user = userRepository.findByUsername(userRequest.getUsername());
+        User user = userRepository.findUserById(userRequest.getId());
         if (user == null) {
             return ResponsePayload.builder()
                     .message("User not found")
@@ -73,6 +73,15 @@ public class UserService implements IUserService {
                     .build();
         }
 
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
+            return ResponsePayload.builder()
+                    .message("Username already exists")
+                    .data(null)
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+
+        user.setUsername(userRequest.getUsername());
         user.setEmail(userRequest.getEmail());
         user.setFullName(userRequest.getFullName());
         user.setAvatar(userRequest.getAvatar());
@@ -80,7 +89,7 @@ public class UserService implements IUserService {
 
         return ResponsePayload.builder()
                 .message("Update success")
-                .data(null)
+                .data(user)
                 .status(HttpStatus.OK)
                 .build();
     }
