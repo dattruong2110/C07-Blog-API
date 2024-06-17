@@ -1,8 +1,10 @@
 package com.codegym.c07blog.service.impl;
 
 import com.codegym.c07blog.dto.BlogDTO;
+import com.codegym.c07blog.dto.FactDTO;
 import com.codegym.c07blog.dto.UserDTO;
 import com.codegym.c07blog.entity.Blog.Blog;
+import com.codegym.c07blog.entity.Fact.Fact;
 import com.codegym.c07blog.entity.authentication.Role;
 import com.codegym.c07blog.entity.authentication.User;
 import com.codegym.c07blog.entity.authentication.UserRole;
@@ -14,6 +16,7 @@ import com.codegym.c07blog.payload.response.LoginResponse;
 import com.codegym.c07blog.payload.response.ResponsePayload;
 import com.codegym.c07blog.payload.response.UserResponse;
 import com.codegym.c07blog.repository.IBlogRepository;
+import com.codegym.c07blog.repository.IFactRepository;
 import com.codegym.c07blog.repository.IRoleRepository;
 import com.codegym.c07blog.repository.IUserRepository;
 import com.codegym.c07blog.repository.IUserRoleRepository;
@@ -29,7 +32,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +45,7 @@ public class UserService implements IUserService {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final IBlogRepository blogRepository;
+    private final IFactRepository factRepository;
     private final IUserRoleRepository userRoleRepository;
     private final RoleService roleService;
     private final AuthenticationManager authenticationManager;
@@ -123,7 +126,6 @@ public class UserService implements IUserService {
                     .data(tokenResponse)
                     .status(HttpStatus.OK)
                     .build();
-
         } catch (Exception e) {
             return ResponsePayload
                     .builder()
@@ -264,6 +266,44 @@ public class UserService implements IUserService {
 
             if (!blogDTOs.isEmpty()) {
                 userDTO.setBlogs(blogDTOs);
+            }
+
+            return userDTO;
+        } else {
+            System.out.println("User not found");
+        }
+        return null;
+    }
+
+    @Override
+    public UserDTO getFactByUserID(UUID id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            List<Fact> facts = factRepository.findAllByUserId(user.getId());
+
+            Set<FactDTO> factDTOS = facts.stream()
+                    .map(fact -> new FactDTO(
+                            fact.getId(),
+                            fact.getPicture(),
+                            fact.getContent(),
+                            fact.getLikes(),
+                            fact.getComment(),
+                            null
+                    )).collect(Collectors.toSet());
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setFullName(user.getFullName());
+            userDTO.setAvatar(user.getAvatar());
+            userDTO.setIsDeleted(user.getIsDeleted());
+
+            if (!factDTOS.isEmpty()) {
+                userDTO.setFacts(factDTOS);
             }
 
             return userDTO;
