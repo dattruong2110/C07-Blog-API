@@ -5,7 +5,7 @@ CREATE TABLE category (
 
 CREATE TABLE picture (
                          id binary(16) PRIMARY KEY,
-                         url varchar(255),
+                         url LONGTEXT,
                          description varchar(255) NOT NULL
 );
 
